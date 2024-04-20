@@ -28,10 +28,16 @@ public class MinecartListener implements Listener {
     public MinecartListener(HsRails plugin) {
         for (String key: plugin.getConfig().getConfigurationSection("boostBlock").getKeys(false)) {
             Material material = Material.matchMaterial(key);
-            double 
+            double speed = plugin.getConfig().getDouble("boostBlock." + key);
+
+            materialAccelerationMap.put(material, speed);
         }
 
         for (String key: plugin.getConfig().getConfigurationSection("brakeBlock").getKeys(false)) {
+            Material material = Material.matchMaterial(key);
+            double speed = plugin.getConfig().getDouble("brakeBlock." + key);
+
+            materialDecelerationMap.put(material, speed);
 
         }
     }
