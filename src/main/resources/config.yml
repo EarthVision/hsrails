@@ -1,4 +1,6 @@
-speedMultiplier: 4.0
-boostBlock: "minecraft:redstone_block"
-hardBrakeMultiplier: 8.0
-hardBrakeBlock: "minecraft:obsidian"
+boostBlock:
+  - "minecraft:waxed_copper_block ": 4
+  - "minecraft:gold_block": 3
+brakeBlock:
+  - "minecraft:soul_sand": 2
+  - "minecraft:obsidian": 4

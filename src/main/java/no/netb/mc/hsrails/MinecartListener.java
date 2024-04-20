@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
+
 
 public class MinecartListener implements Listener {
 
@@ -20,14 +22,17 @@ public class MinecartListener implements Listener {
      */
     private static final double DEFAULT_SPEED_METERS_PER_TICK = 0.4d;
 
-    private final Material boostBlock;
-    private final Material hardBrakeBlock;
-    private final boolean isCheatMode;
+    private HashMap<Material, Double> materialAccelerationMap = new HashMap<>();
+    private HashMap<Material, Double> materialDecelerationMap = new HashMap<>();
 
-    public MinecartListener(Material boostBlock, Material hardBrakeBlock, boolean isCheatMode) {
-        this.boostBlock = boostBlock;
-        this.hardBrakeBlock = hardBrakeBlock;
-        this.isCheatMode = isCheatMode;
+    public MinecartListener(HsRails plugin) {
+        for (String key: plugin.getConfig().getConfigurationSection("boostBlock").getKeys(false)) {
+
+        }
+
+        for (String key: plugin.getConfig().getConfigurationSection("brakeBlock").getKeys(false)) {
+
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -42,17 +47,17 @@ public class MinecartListener implements Listener {
             Block blockBelow = cartsWorld.getBlockAt(cartLocation.add(0, -1, 0));
 
             if (rail.getType() == Material.POWERED_RAIL) {
-                if (isCheatMode || blockBelow.getType() == boostBlock) {
-                    cart.setMaxSpeed(DEFAULT_SPEED_METERS_PER_TICK * HsRails.getConfiguration().getSpeedMultiplier());
+                if (materialAccelerationMap.containsKey(blockBelow.getType())) {
+                    cart.setMaxSpeed(DEFAULT_SPEED_METERS_PER_TICK * materialAccelerationMap.get(blockBelow.getType()));
                 }
                 else {
                     cart.setMaxSpeed(DEFAULT_SPEED_METERS_PER_TICK);
                 }
                 RedstoneRail railBlockData = (RedstoneRail) rail.getBlockData();
                 if (!railBlockData.isPowered()
-                        && blockBelow.getType() == hardBrakeBlock) {
+                        && materialDecelerationMap.containsKey(blockBelow.getType())) {
                     Vector cartVelocity = cart.getVelocity();
-                    cartVelocity.multiply(HsRails.getConfiguration().getHardBrakeMultiplier());
+                    cartVelocity.multiply(materialDecelerationMap.get(blockBelow.getType()));
                     cart.setVelocity(cartVelocity);
                 }
             }
