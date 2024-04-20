@@ -27,7 +27,8 @@ public class MinecartListener implements Listener {
 
     public MinecartListener(HsRails plugin) {
         for (String key: plugin.getConfig().getConfigurationSection("boostBlock").getKeys(false)) {
-
+            Material material = Material.matchMaterial(key);
+            double 
         }
 
         for (String key: plugin.getConfig().getConfigurationSection("brakeBlock").getKeys(false)) {
