@@ -1,6 +1,6 @@
 boostBlock:
-  - "waxed_copper_block ": 4
-  - "gold_block": 3
+  "waxed_copper_block": 4
+  "gold_block": 3
 brakeBlock:
-  - "soul_sand": 2
-  - "obsidian": 4
+  "soul_sand": 2
+  "obsidian": 4
